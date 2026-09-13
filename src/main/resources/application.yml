@@ -1,0 +1,53 @@
+server:
+  port: 8089
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: dashboard-api
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  datasource:
+    url: ${DB_URL:jdbc:sqlserver://localhost:1433;databaseName=finance;encrypt=true;trustServerCertificate=true}
+    username: ${DB_USER:sa}
+    password: ${DB_PASSWORD:YourStrong!Passw0rd}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        default_schema: dbo
+
+keycloak:
+  url: ${KEYCLOAK_URL:https://localhost:9999}
+  realm: ${KEYCLOAK_REALM:development}
+  datasource:
+    url: ${KEYCLOAK_DB_URL:jdbc:sqlserver://localhost:1433;databaseName=keycloak;encrypt=true;trustServerCertificate=true}
+    username: ${DB_USER:sa}
+    password: ${DB_PASSWORD:YourStrong!Passw0rd}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: false
+  health:
+    diskspace:
+      enabled: false
+    ping:
+      enabled: false
+    ssl:
+      enabled: false

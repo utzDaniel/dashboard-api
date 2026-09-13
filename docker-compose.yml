@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8089:8089"
+    environment:
+      DB_URL: jdbc:sqlserver://sqlserver:1433;databaseName=finance;encrypt=true;trustServerCertificate=true
+      DB_USER: sa
+      DB_PASSWORD: YourStrong!Passw0rd
+      KEYCLOAK_URL: http://host.docker.internal:9999
+      KEYCLOAK_REALM: development
+      KEYCLOAK_DB_URL: jdbc:sqlserver://sqlserver:1433;databaseName=keycloak;encrypt=true;trustServerCertificate=true
