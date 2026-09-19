@@ -1,7 +1,7 @@
-package br.com.dashboard.modules.payroll;
+package br.com.dashboard.modules.expense;
 
 import br.com.dashboard.config.TimestampUtils;
-import br.com.dashboard.modules.payroll.dto.PayrollSummaryResponse;
+import br.com.dashboard.modules.expense.dto.ExpenseSummaryResponse;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/api/v1/dashboard")
-public class PayrollController {
+public class ExpenseController {
 
-    private final PayrollService payrollService;
+    private final ExpenseService expenseService;
 
-    public PayrollController(PayrollService payrollService) {
-        this.payrollService = payrollService;
+    public ExpenseController(ExpenseService expenseService) {
+        this.expenseService = expenseService;
     }
 
-    @GetMapping("/payroll/{competenceInitial}/{competenceEnd}/summary")
-    public ResponseEntity<PayrollSummaryResponse> getPayrollSummary(
+    @GetMapping("/expense/{competenceInitial}/{competenceEnd}/summary")
+    public ResponseEntity<ExpenseSummaryResponse> getExpenseSummary(
             @AuthenticationPrincipal Jwt jwt,
             @PathVariable("competenceInitial")
             @Pattern(regexp = TimestampUtils.DATA_REGEX, message = "Competence inicial deve estar no formato yyyy-MM-dd")
@@ -34,10 +34,11 @@ public class PayrollController {
             String competenceEnd
     ) {
         return ResponseEntity.ok(
-                payrollService.getPayrollSummary(
+                expenseService.getExpenseSummary(
                         jwt,
                         TimestampUtils.parseCompetence(competenceInitial),
                         TimestampUtils.parseCompetence(competenceEnd)
                 ));
     }
+
 }

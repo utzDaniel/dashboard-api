@@ -13,9 +13,9 @@
       var spec = {
   "openapi": "3.0.3",
   "info": {
-    "title": "API Dashborad",
+    "title": "API Dashboard",
     "version": "1.0.0",
-    "description": "API de dashborad do sistema."
+    "description": "API de dashboard do sistema."
   },
   "servers": [
     {
@@ -51,6 +51,32 @@
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/PayrollSummaryResponse" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/api/v1/dashboard/expense/{competenceInitial}/{competenceEnd}/summary": {
+      "get": {
+        "tags": ["Expense"],
+        "summary": "Resumo das despesas",
+        "operationId": "getExpenseSummary",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/CompetenceDateInitial" },
+          { "$ref": "#/components/parameters/CompetenceDateEnd" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resumo das despesas",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ExpenseSummaryResponse" }
               }
             }
           },
@@ -201,6 +227,42 @@
           "id": { "type": "integer", "format": "int64", "description": "ID do evento", "example": 500 },
           "name": { "type": "string", "description": "Nome do evento", "example": "INSS" },
           "total": { "type": "number", "format": "decimal", "description": "Total do evento", "example": 436.00 }
+        }
+      },
+      "ExpenseSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "competenceInitial": { "type": "string", "format": "date", "description": "Data inicial", "example": "2027-02-10" },
+          "competenceEnd": { "type": "string", "format": "date", "description": "Data final", "example": "2027-02-10" },
+          "categories": {
+            "type": "array",
+            "description": "Lista de categorias",
+            "items": {
+              "$ref": "#/components/schemas/ExpenseCategoryResponse"
+            }
+          }
+        }
+      },
+      "ExpenseCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64", "description": "ID da categoria", "example": 1 },
+          "name": { "type": "string", "description": "Nome da categoria", "example": "Custo Fixo" },
+          "total": { "type": "number", "format": "decimal", "description": "Total da categoria", "example": 2415.00 },
+          "events": {
+            "type": "array",
+            "description": "Lista os despesas",
+            "items": {
+              "$ref": "#/components/schemas/ExpenseResponse"
+            }
+          }
+        }
+      },
+      "ExpenseResponse": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Nome da despesa", "example": "Conta de Luz" },
+          "total": { "type": "number", "format": "decimal", "description": "Total da despesa", "example": 653.00 }
         }
       },
       "ErrorResponse": {
