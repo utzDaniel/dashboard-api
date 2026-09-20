@@ -1,14 +1,15 @@
 package br.com.dashboard.modules.expense.dto;
 
+import lombok.Getter;
+
+@Getter
 public enum ExpenseCategory {
 
     CUSTO_FIXO(1, "Custo Fixo"),
     CONFORTO(2, "Conforto"),
-    METAS(3, "Metas"),
-    PRAZERES(4, "Prazeres"),
-    INVESTIMENTO(5, "Investimento"),
-    CONHECIMENTO(6, "Conhecimento"),
-    EMERGENCIA(7, "Emergencia");
+    PRAZERES(3, "Prazeres"),
+    CONHECIMENTO(4, "Conhecimento"),
+    EMERGENCIA(5, "Emergência");
 
     private final int id;
 
@@ -17,14 +18,6 @@ public enum ExpenseCategory {
     ExpenseCategory(int id, String description) {
         this.id = id;
         this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public static ExpenseCategory get(int id) {

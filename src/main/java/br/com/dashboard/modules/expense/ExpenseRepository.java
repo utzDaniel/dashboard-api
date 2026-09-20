@@ -21,16 +21,16 @@ public interface ExpenseRepository extends JpaRepository<ExpenseEntity, Long> {
             INNER JOIN competence AS c
             		ON e.user_id = c.user_id
                    AND e.competence = c.month_year
-            INNER JOIN transaction_expense AS te 
+            INNER JOIN transaction_expense AS te
             		ON e.id = te.expense
-            INNER JOIN transaction_account AS ta 
+            INNER JOIN transaction_account AS ta
             		ON te.transaction_account = ta.id
-            INNER JOIN account AS a 
+            INNER JOIN account AS a
             		ON ta.account = a.id
             WHERE e.user_id = :userId
               AND e.competence BETWEEN :competenceInitial
                                    AND :competenceEnd
-              AND a.link = 2
+              AND a.link in (1, 2)
             GROUP BY e.name, e.category
             ORDER BY e.name, e.category
             """, nativeQuery = true)

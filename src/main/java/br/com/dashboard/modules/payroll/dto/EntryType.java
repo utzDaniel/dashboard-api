@@ -1,10 +1,13 @@
 package br.com.dashboard.modules.payroll.dto;
 
+import lombok.Getter;
+
+@Getter
 public enum EntryType {
 
     DESCONTO(1, "Desconto"),
-    PROVENTO(2, "Provento"),
-    BENEFICIO(3, "Benificio");
+    LIQUIDO(2, "Líquido"),
+    BENEFICIO(3, "Benefício");
 
     private final int id;
     private final String description;
@@ -12,14 +15,6 @@ public enum EntryType {
     EntryType(int id, String description) {
         this.id = id;
         this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public static EntryType get(int id) {
